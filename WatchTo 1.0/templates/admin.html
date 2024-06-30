@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+            animation: slideIn 0.5s ease forwards;
+        }
+        h1 {
+            color: #ff69b4;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        input[type="file"], input[type="text"], button {
+            margin-bottom: 15px;
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #ff69b4;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #d64488;
+        }
+        p {
+            margin-top: 10px;
+        }
+        @keyframes slideIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Panel</h1>
+        <form method="post" enctype="multipart/form-data">
+            <label for="file">Film Dosyası Seç:</label>
+            <input type="file" id="file" name="file">
+            <br>
+            <label for="link">Film Linki Gir:</label>
+            <input type="text" id="link" name="link" value="">
+            <br>
+            <button type="submit" name="action" value="start">Başlat</button>
+            <button type="submit" name="action" value="stop">Durdur</button>
+        </form>
+        <p>Seçili Dosya: {{ live_stream.file_path }}</p>
+        <p>Seçili Link: {{ live_stream.link }}</p>
+        <p>Durum: {{ live_stream.status }}</p>
+    </div>
+</body>
+</html>

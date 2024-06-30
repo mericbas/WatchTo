@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canlı Yayın</title>
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+            animation: slideIn 0.5s ease forwards;
+        }
+        h1 {
+            color: #ff69b4;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        video {
+            width: 100%;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #ff69b4;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #d64488;
+        }
+        @keyframes slideIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Canlı Yayın</h1>
+        <video id="videoPlayer" controls preload="auto">
+            {% if live_stream.file_path %}
+                <source src="{{ url_for('static', filename='video/' ~ live_stream.file_path) }}" type="video/mp4">
+            {% elif live_stream.link %}
+                <source src="{{ live_stream.link }}" type="video/mp4">
+            {% endif %}
+            Your browser does not support the video tag.
+        </video>
+        <br>
+        <button onclick="control('start')">Başlat</button>
+        <button onclick="control('stop')">Durdur</button>
+    </div>
+
+    <script>
+        var socket = io();
+        var videoPlayer = document.getElementById('videoPlayer');
+        var lastSentTime = 0;
+        var controlTimeout = null;
+
+        function control(action) {
+            clearTimeout(controlTimeout);
+            socket.emit('control', { status: action });
+            if (action === 'start') {
+                controlTimeout = setTimeout(function() {
+                    socket.emit('control', { status: 'check' });
+                }, 5000); // Check status after 5 seconds
+            }
+        }
+
+        socket.on('control', function(data) {
+            if (data.status === 'start') {
+                videoPlayer.play();
+            } else if (data.status === 'stop') {
+                videoPlayer.pause();
+            } else if (data.status === 'check') {
+                if (videoPlayer.paused) {
+                    socket.emit('control', { status: 'start' });
+                }
+            }
+        });
+
+        socket.on('seek', function(data) {
+            if (Math.abs(videoPlayer.currentTime - data.time) > 2) {
+                videoPlayer.currentTime = data.time;
+            }
+        });
+
+        videoPlayer.addEventListener('play', function() {
+            socket.emit('control', { status: 'start' });
+        });
+
+        videoPlayer.addEventListener('pause', function() {
+            socket.emit('control', { status: 'stop' });
+        });
+
+        videoPlayer.addEventListener('seeked', function() {
+            socket.emit('seek', { time: videoPlayer.currentTime });
+        });
+
+        videoPlayer.addEventListener('timeupdate', function() {
+            var currentTime = videoPlayer.currentTime;
+            if (Math.abs(currentTime - lastSentTime) > 10) {
+                socket.emit('timeupdate', { time: currentTime });
+                lastSentTime = currentTime;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+Tabii, işte `Readme.txt` dosyası için Türkçe ve İngilizce metinler:
+
+**Türkçe:**
+
+```
+=================================
+Flask ve Socket.IO Video Yayını Uygulaması
+=================================
+
+Bu uygulama, Flask ve Socket.IO kullanılarak geliştirilmiş basit bir video yayını yönetim uygulamasıdır.
+
+Kullanılan Teknolojiler:
+- Python
+- Flask framework
+- Flask-SocketIO eklentisi
+
+Gereksinimler:
+- Python'un yüklü olduğundan emin olun. Python 3.6 veya daha üst sürümleri tavsiye edilir.
+- Flask ve Flask-SocketIO paketlerini yükleyin:
+  ```
+  pip install Flask
+  pip install flask-socketio
+  ```
+
+Kurulum:
+1. Uygulamayı çalıştırmadan önce `static/video` adında bir klasör oluşturun. Bu klasör, yüklenen videoların depolandığı yer olacak.
+2. Uygulamayı başlatmak için terminalde veya komut istemcisinde `python app.py` komutunu kullanın.
+3. Tarayıcınızdan `http://localhost:5000` adresine giderek uygulamayı görüntüleyebilirsiniz.
+
+Notlar:
+- Uygulama geliştirme modunda çalıştırıldığı için `app.debug = True` olarak ayarlanmıştır. Üretim ortamına geçiş yaparken bu ayarı `False` olarak değiştirmeyi unutmayın.
+
+=================================
+Flask and Socket.IO Video Streaming Application
+=================================
+
+This application is a simple video streaming management system developed using Flask and Socket.IO.
+
+Technologies Used:
+- Python
+- Flask framework
+- Flask-SocketIO extension
+
+Requirements:
+- Make sure Python is installed. Python 3.6 or higher is recommended.
+- Install Flask and Flask-SocketIO packages:
+  ```
+  pip install Flask
+  pip install flask-socketio
+  ```
+
+Installation:
+1. Before running the application, create a folder named `static/video`. This folder will be used to store uploaded videos.
+2. Start the application by running `python app.py` in your terminal or command prompt.
+3. Access the application by navigating to `http://localhost:5000` in your web browser.
+
+Notes:
+- The application is set to run in debug mode (`app.debug = True`) for development purposes. Remember to change this to `False` when moving to a production environment.
+```
+
+Bu metinleri `Readme.txt` dosyasına kopyalayabilir ve dosyanızı oluşturabilirsiniz. Her iki dilde de açıklamalar ve kurulum talimatları yer alıyor, böylece kullanıcılarınız doğru şekilde uygulamayı kurabilir ve çalıştırabilirler.
